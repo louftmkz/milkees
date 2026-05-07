@@ -1787,12 +1787,12 @@ startTick();
 document.addEventListener('visibilitychange', saveState);
 window.addEventListener('beforeunload', saveState);
 
-// Service Worker registrieren (offline-first)
+// Service Worker registrieren (offline-first).
+// Schluckt Fehler still — wenn der SW nicht erreichbar ist (z.B. lokales Preview
+// ohne den File daneben), läuft die App einfach ohne Offline-Cache weiter.
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js').catch((err) => {
-      console.warn('SW registration failed:', err);
-    });
+    navigator.serviceWorker.register('service-worker.js').catch(() => {});
   });
 }
 
